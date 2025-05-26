@@ -14,14 +14,23 @@ const idColumn = (prefix: string) => {
 
 const auditColumns = () => {
   return {
-    createdAt: timestamp('created_at', { precision: 3 })
+    createdAt: timestamp('created_at', {
+      precision: 3,
+      withTimezone: true,
+    })
       .notNull()
-      .default(new Date()),
-    updatedAt: timestamp('updated_at', { precision: 3 })
+      .defaultNow(),
+    updatedAt: timestamp('updated_at', {
+      precision: 3,
+      withTimezone: true,
+    })
       .notNull()
-      .default(new Date())
-      .$onUpdate(() => new Date()),
-    terminatedAt: timestamp('terminated_at', { precision: 3 }),
+      .defaultNow()
+      .$onUpdateFn(() => new Date()),
+    terminatedAt: timestamp('terminated_at', {
+      precision: 3,
+      withTimezone: true,
+    }),
   };
 };
 
