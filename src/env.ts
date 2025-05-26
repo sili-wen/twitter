@@ -1,6 +1,7 @@
 import { config } from 'dotenv';
 import { expand } from 'dotenv-expand';
 import { z } from 'zod';
+import type { ZodError } from 'zod/v4';
 
 expand(config());
 
@@ -10,6 +11,16 @@ const envSchema = z.object({
   PORT: z.coerce.number().default(9999),
 });
 
-const env = envSchema.parse(process.env);
+type Env = z.infer<typeof envSchema>;
+let env: Env;
+try {
+  env = envSchema.parse(process.env);
+} catch (e) {
+  const error = e as ZodError;
+
+  console.error('Invalid env:');
+  console.error(error.flatten());
+  process.exit(1);
+}
 
 export default env;
