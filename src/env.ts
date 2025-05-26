@@ -6,9 +6,10 @@ import type { ZodError } from 'zod/v4';
 expand(config());
 
 const envSchema = z.object({
-  NODE_ENV: z.string().default('development'),
   LOG_LEVEL: z.enum(['fatal', 'error', 'warn', 'info', 'debug', 'trace']),
+  NODE_ENV: z.string().default('development'),
   PORT: z.coerce.number().default(9999),
+  TWITTER_DATABASE_CONNECTION: z.string(),
 });
 
 type Env = z.infer<typeof envSchema>;
