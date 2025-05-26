@@ -6,7 +6,7 @@ export const list: AppRouteHandler<ListRoute> = c => {
     [
       {
         user: '123',
-        tweet: 'new release today',
+        tweet: 'New release today',
       },
     ],
     200
