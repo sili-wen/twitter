@@ -2,12 +2,15 @@ import { pgTable, varchar, timestamp } from 'drizzle-orm/pg-core';
 import { ulid } from 'ulid';
 
 const SEPARATOR = '_';
-const entityId = (prefix: string) => `${prefix}${SEPARATOR}${ulid()}`;
+const entityId = (prefix: string) => {
+  return `${prefix}${SEPARATOR}${ulid()}`;
+};
 
 const idColumn = (prefix: string) => {
   return {
     id: varchar('id', { length: 64 })
       .primaryKey()
+      .notNull()
       .$defaultFn(() => entityId(prefix)),
   };
 };
