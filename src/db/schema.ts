@@ -28,5 +28,5 @@ const auditColumns = () => {
 export const tweets = pgTable('tweets', {
   ...idColumn('twt'),
   message: varchar('message', { length: 512 }).notNull(),
-  ...auditColumns,
+  ...auditColumns(),
 });
