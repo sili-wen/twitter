@@ -11,8 +11,8 @@ export const list = createRoute({
     200: jsonResponse(
       z.array(
         z.object({
-          user: z.string(),
-          tweet: z.string(),
+          id: z.string(),
+          message: z.string(),
         })
       ),
       'The list of tweets'
