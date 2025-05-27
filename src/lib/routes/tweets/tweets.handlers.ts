@@ -8,6 +8,10 @@ export const get: AppRouteHandler<GetRoute> = async c => {
   const id = c.req.param('id');
   const [tweet] = await db.select().from(tweets).where(eq(tweets.id, id!));
 
+  if (!tweet) {
+    return c.json({ message: 'Tweet not found.' }, 404);
+  }
+
   return c.json(tweet, 200);
 };
 

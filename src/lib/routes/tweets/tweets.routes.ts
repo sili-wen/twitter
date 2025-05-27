@@ -1,5 +1,9 @@
 import { createRoute, z } from '@hono/zod-openapi';
-import jsonResponse from '~/lib/jsonResponse';
+import jsonResponse, {
+  unprocessableEntity,
+  notFoundResponse,
+  unprocessableEntityResponse,
+} from '~/lib/constants';
 import { IdRequest } from '../resources';
 
 const tags = ['Tweets'];
@@ -15,6 +19,19 @@ const NewTweet = z.object({
 
 const ListTweets = z.array(Tweet);
 
+export const create = createRoute({
+  method: 'post',
+  path: '/tweets',
+  tags,
+  request: {
+    body: jsonResponse(NewTweet, 'The tweet to create'),
+  },
+  responses: {
+    200: jsonResponse(Tweet, 'The created tweet'),
+    422: unprocessableEntityResponse('Validation error'),
+  },
+});
+
 export const get = createRoute({
   method: 'get',
   path: '/tweets/{id}',
@@ -22,7 +39,8 @@ export const get = createRoute({
   request: IdRequest,
   responses: {
     200: jsonResponse(Tweet, 'The requested tweet'),
-    422: jsonResponse(z.object({ message: z.string() }), 'Invalid id error.'),
+    404: notFoundResponse('Tweet'),
+    422: unprocessableEntityResponse('Invalid id error.'),
   },
 });
 
@@ -35,16 +53,14 @@ export const list = createRoute({
   },
 });
 
-export const create = createRoute({
-  method: 'post',
-  path: '/tweets',
+export const update = createRoute({
+  method: 'patch',
+  path: '/tweets/{id}',
   tags,
-  request: {
-    body: jsonResponse(NewTweet, 'The tweet to create'),
-  },
+  request: IdRequest,
   responses: {
-    200: jsonResponse(Tweet, 'The created tweet'),
-    422: jsonResponse(z.object({ message: z.string() }), 'Validation error'),
+    200: jsonResponse(Tweet, 'The updated tweet'),
+    422: unprocessableEntityResponse('Validation error'),
   },
 });
 
