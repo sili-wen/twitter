@@ -42,3 +42,6 @@ export const tweets = pgTable('tweets', {
   message: varchar('message', { length: 512 }).notNull(),
   ...auditColumns(),
 });
+
+export type Tweet = typeof tweets.$inferSelect;
+export type NewTweet = typeof tweets.$inferInsert;
