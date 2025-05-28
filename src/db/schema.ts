@@ -40,7 +40,9 @@ const auditColumns = () => {
 export const tweets = pgTable('tweets', {
   ...idColumn('twt'),
   message: varchar('message', { length: 512 }).notNull(),
-  userId: varchar('user_id', { length: 64 }).references(() => users.id),
+  userId: varchar('user_id', { length: 64 })
+    .references(() => users.id)
+    .notNull(),
   ...auditColumns(),
 });
 

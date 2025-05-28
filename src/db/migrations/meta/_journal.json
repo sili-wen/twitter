@@ -8,6 +8,20 @@
       "when": 1748302081244,
       "tag": "0000_init_twitter_migration",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1748395208035,
+      "tag": "0001_create_users_table",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1748395494026,
+      "tag": "0002_non_null_user",
+      "breakpoints": true
     }
   ]
 }

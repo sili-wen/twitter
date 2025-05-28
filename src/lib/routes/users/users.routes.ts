@@ -1,5 +1,5 @@
 import { createRoute, z } from '@hono/zod-openapi';
-import jsonResponse from '~/lib/constants';
+import jsonResponse, { notFoundResponse } from '~/lib/constants';
 
 const tags = ['Users'];
 
@@ -23,6 +23,7 @@ export const create = createRoute({
   },
   responses: {
     201: jsonResponse(User, 'The created user'),
+    400: notFoundResponse('User not created.'),
   },
 });
 
