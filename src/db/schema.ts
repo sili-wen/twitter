@@ -1,4 +1,5 @@
-import { pgTable, varchar, timestamp, index } from 'drizzle-orm/pg-core';
+import { pgTable, varchar, timestamp, index, check } from 'drizzle-orm/pg-core';
+import { sql } from 'drizzle-orm';
 import { ulid } from 'ulid';
 
 const SEPARATOR = '_';
@@ -56,6 +57,27 @@ export const users = pgTable(
     ...auditColumns(),
   },
   table => [index('users_email_idx').on(table.email)]
+);
+
+export const follows = pgTable(
+  'follows',
+  {
+    ...idColumn('fllw'),
+    followerId: varchar('follower_id', { length: 64 })
+      .references(() => users.id)
+      .notNull(),
+    userId: varchar('user_id', { length: 64 })
+      .references(() => users.id)
+      .notNull(),
+    ...auditColumns(),
+  },
+  table => [
+    check(
+      'follows_no_self_follow',
+      sql`${table.followerId} != ${table.userId}`
+    ),
+    index('follows_user_id_idx').on(table.userId),
+  ]
 );
 
 export type Tweet = typeof tweets.$inferSelect;

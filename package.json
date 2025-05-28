@@ -6,8 +6,8 @@
     "dev": "tsx watch src/index.ts",
     "build": "tsc",
     "start": "node dist/index.js",
-    "db:generate": "pnpm drizzle-kit generate",
-    "db:migrate": "pnpm drizzle-kit migrate"
+    "db:gen": "pnpm drizzle-kit generate",
+    "db:mig": "pnpm drizzle-kit migrate"
   },
   "dependencies": {
     "@hono/node-server": "^1.14.2",
