@@ -1,4 +1,4 @@
-import { pgTable, varchar, timestamp } from 'drizzle-orm/pg-core';
+import { pgTable, varchar, timestamp, index } from 'drizzle-orm/pg-core';
 import { ulid } from 'ulid';
 
 const SEPARATOR = '_';
@@ -40,8 +40,24 @@ const auditColumns = () => {
 export const tweets = pgTable('tweets', {
   ...idColumn('twt'),
   message: varchar('message', { length: 512 }).notNull(),
+  userId: varchar('user_id', { length: 64 }).references(() => users.id),
   ...auditColumns(),
 });
 
+export const users = pgTable(
+  'users',
+  {
+    ...idColumn('usr'),
+    firstName: varchar('first_name', { length: 64 }).notNull(),
+    lastName: varchar('last_name', { length: 64 }).notNull(),
+    email: varchar('email', { length: 128 }).notNull().unique(),
+    ...auditColumns(),
+  },
+  table => [index('users_email_idx').on(table.email)]
+);
+
 export type Tweet = typeof tweets.$inferSelect;
 export type NewTweet = typeof tweets.$inferInsert;
+
+export type User = typeof users.$inferSelect;
+export type NewUser = typeof users.$inferInsert;

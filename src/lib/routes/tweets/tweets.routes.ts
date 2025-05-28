@@ -1,6 +1,5 @@
 import { createRoute, z } from '@hono/zod-openapi';
 import jsonResponse, {
-  unprocessableEntity,
   notFoundResponse,
   unprocessableEntityResponse,
 } from '~/lib/constants';
@@ -16,6 +15,8 @@ const Tweet = z.object({
 const NewTweet = z.object({
   message: z.string().min(1).max(512),
 });
+
+const UpdateTweet = NewTweet.partial();
 
 const ListTweets = z.array(Tweet);
 
@@ -57,13 +58,31 @@ export const update = createRoute({
   method: 'patch',
   path: '/tweets/{id}',
   tags,
-  request: IdRequest,
+  request: {
+    params: IdRequest.params,
+    body: jsonResponse(UpdateTweet, 'The tweet fields to update'),
+  },
   responses: {
     200: jsonResponse(Tweet, 'The updated tweet'),
+    404: notFoundResponse('Tweet'),
     422: unprocessableEntityResponse('Validation error'),
   },
 });
 
-export type GetRoute = typeof get;
-export type ListRoute = typeof list;
-export type CreateRoute = typeof create;
+export const deleteTweet = createRoute({
+  method: 'delete',
+  path: '/tweets/{id}',
+  tags,
+  request: IdRequest,
+  responses: {
+    200: { description: 'Tweet deleted successfully' },
+    404: notFoundResponse('Tweet'),
+    422: unprocessableEntityResponse('Invalid id error.'),
+  },
+});
+
+export type Get = typeof get;
+export type List = typeof list;
+export type Create = typeof create;
+export type Update = typeof update;
+export type Delete = typeof deleteTweet;
