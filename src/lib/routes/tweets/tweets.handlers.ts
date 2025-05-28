@@ -54,7 +54,8 @@ export const update: AppRouteHandler<Update> = async c => {
 export const deleteTweet: AppRouteHandler<Delete> = async c => {
   const id = c.req.param('id');
   const [deletedTweet] = await db
-    .delete(tweets)
+    .update(tweets)
+    .set({ terminatedAt: new Date() })
     .where(eq(tweets.id, id!))
     .returning();
 
