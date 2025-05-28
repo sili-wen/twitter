@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-const jsonResponse = (schema: z.ZodSchema, description: string) => {
+export const jsonResponse = (schema: z.ZodSchema, description: string) => {
   return {
     content: {
       'application/json': {
@@ -32,5 +32,3 @@ export const unprocessableEntityResponse = (description: string) => {
     description,
   };
 };
-
-export default jsonResponse;

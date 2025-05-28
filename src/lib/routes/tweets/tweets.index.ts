@@ -15,9 +15,9 @@ import {
 } from './tweets.handlers';
 
 const router = createRouter()
+  .openapi(createTweet, createTweetHandler)
   .openapi(getTweet, getTweetHandler)
   .openapi(listTweets, listTweetsHandler)
-  .openapi(createTweet, createTweetHandler)
   .openapi(updateTweet, updateTweetHandler)
   .openapi(deleteTweet, deleteTweetHandler);
 

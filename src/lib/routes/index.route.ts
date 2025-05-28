@@ -1,6 +1,6 @@
 import { createRoute, z } from '@hono/zod-openapi';
 import { createRouter } from '../createApp';
-import jsonResponse from '../constants';
+import { jsonResponse } from '../constants';
 
 const router = createRouter().openapi(
   createRoute({

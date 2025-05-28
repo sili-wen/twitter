@@ -1,5 +1,6 @@
 import { createRoute, z } from '@hono/zod-openapi';
-import jsonResponse, {
+import {
+  jsonResponse,
   notFoundResponse,
   unprocessableEntityResponse,
 } from '~/lib/constants';
